@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
-const userSchema = new mongoose.Schema(
+var userSchema = new mongoose.Schema(
   {
     fullname: {
       firstname: {
@@ -34,7 +34,7 @@ userSchema.methods.generateJWT = function () {
   });
 };
 
-userSchema.methods.hashPassword = async function (password) {
+userSchema.statics.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
 
@@ -42,6 +42,8 @@ userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
+// const User = mongoose.m`odel("User", userSchema);
 
-module.exports = User;
+// module.exports = User;
+
+module.exports = mongoose.model("User", userSchema);
