@@ -1,23 +1,12 @@
 const express = require("express");
 const userController = require("../controllers/user.controller");
-const { body } = require("express-validator");
+const { validateRegister, validateLogin } = require("../middleware/validation.middleware");
 
 const router = express.Router();
 
 router.post(
-  "/register",
-  [
-    body("email").isEmail().withMessage("Invalid email address..."),
-    body("fullname.firstname")
-      .notEmpty()
-      .withMessage("First name is required..."),
-    body("password")
-      .isLength({ min: 8 })
-      .withMessage("Password must be at least of 8 characters..."),
-  ],
-
-  userController.registerUser
+  "/register",validateRegister, userController.registerUser
 );
-// router.post('/login', loginUser);
+router.post('/login',validateLogin, userController.loginUser );
 
 module.exports = router;
