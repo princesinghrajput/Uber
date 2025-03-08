@@ -81,7 +81,8 @@ const loginUser = async (req, res) => {
 
 
 const getProfile = async(req, res)=>{
-  const userId = req.body.userId;
+
+  const userId = req.user.userId;
 
   try{
     const user = await getUserById(userId);
@@ -98,8 +99,6 @@ const getProfile = async(req, res)=>{
       
     })
   }
-
-  
 
 }
 
