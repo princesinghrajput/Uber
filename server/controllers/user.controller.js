@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const { createUser, getUserByEmail } = require("../services/user.service");
+const { createUser, getUserByEmail, getUserById } = require("../services/user.service");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
@@ -79,4 +79,28 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+
+const getProfile = async(req, res)=>{
+  const userId = req.body.userId;
+
+  try{
+    const user = await getUserById(userId);
+    return res.status(200).json({
+      message: "Profile fetched successfully",
+      user:{
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      
+    })
+  }
+
+  
+
+}
+
+module.exports = { registerUser, loginUser, getProfile };

@@ -12,7 +12,9 @@ const validateRegister = [
 
 const validateLogin =[
     body('email').isEmail().withMessage("Invalid email address..."),
+    body('email').notEmpty().withMessage("Email is required..."),
     body('password').notEmpty().withMessage("Password is required...")
+    
 ]
 
   module.exports = {validateRegister, validateLogin};
