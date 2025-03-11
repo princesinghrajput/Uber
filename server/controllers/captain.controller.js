@@ -51,4 +51,26 @@ const loginCaptain = async (req, res) => {
   });
 };
 
-module.exports = { registerCaptain, loginCaptain };
+const getCaptainProfile = async (req, res) => {
+  const captainId = req.captain.id;
+
+  try {
+    const captain = await captainService.getCaptainById(captainId);
+
+    return res.status(200).json({
+      message: "Captain profile fetched successfully...",
+      captain: {
+        _id: captain._id,
+        fullname: captain.fullname,
+        email: captain.email,
+        vehicle: captain.vehicle,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error...",
+    });
+  }
+};
+
+module.exports = { registerCaptain, loginCaptain, getCaptainProfile };
