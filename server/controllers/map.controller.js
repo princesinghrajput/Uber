@@ -1,5 +1,6 @@
 const axios = require("axios");
 const {getDistanceTime} = require("../services/maps.service");
+const {metreToKilometer, convertTime} = require("../utils/utils");
 
 const getCoordinates = async (req, res) => {
   const { address } = req.query;
@@ -30,21 +31,26 @@ const getCoordinates = async (req, res) => {
 const getDistanceTimeController = async (req, res) =>{
 
   const {origin , destination} = req.query;
-  const distanceTime = await getDistanceTime(origin, destination);
+  try{
+    const distanceTime = await getDistanceTime(origin, destination);
   const distance = distanceTime.routes[0].distance;
   const duration = distanceTime.routes[0].duration;
 
   return res.status(200).json({
     distance:{
-      text: distance,
+      text: metreToKilometer(distance),
       value: distance
     },
     duration:{
-      text: duration,
-      value: duration
-    }
-  });
-
+      text: convertTime(duration),
+        value: duration,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
 }
 module.exports = {
   getCoordinates,
