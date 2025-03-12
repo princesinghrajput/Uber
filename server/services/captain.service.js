@@ -22,9 +22,6 @@ const getCaptainByEmail = async(email)=>{
 const getCaptainById = async(captainId)=>{
     try{
         const captain = await Captain.findById(captainId);
-        if(!captain){
-            throw new Error("Captain not found...");
-        }
         return captain;
     }catch(error){
         throw new Error(error);

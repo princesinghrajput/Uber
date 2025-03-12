@@ -3,7 +3,6 @@ const captainService = require("../services/captain.service");
 
 const registerCaptain = async (req, res) => {
   const { fullname, email, password, vehicle } = req.body;
-
   const hashedPassword = await Captain.hashPassword(password);
 
   const captain = await captainService.createCaptain({
