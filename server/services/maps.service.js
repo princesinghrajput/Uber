@@ -38,6 +38,19 @@ const getDistanceTime = async (origin, destination) => {
   }
 };
 
+const getSuggestions = async (input) =>{
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}&limit=10`
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching suggestions: ", error);
+    throw error;
+  }
+
+}
+
 module.exports = {
   getDistanceTime,
+  getSuggestions
 };

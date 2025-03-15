@@ -1,5 +1,5 @@
 const axios = require("axios");
-const {getDistanceTime} = require("../services/maps.service");
+const {getDistanceTime, getSuggestions} = require("../services/maps.service");
 const {metreToKilometer, convertTime} = require("../utils/utils");
 
 const getCoordinates = async (req, res) => {
@@ -52,7 +52,19 @@ const getDistanceTimeController = async (req, res) =>{
     });
   }
 }
+
+const getSuggestionsController = async( req, res) =>{
+const {input} = req.query;
+ const suggestions = await getSuggestions(input);
+ const suggestionsArray = suggestions.map((suggestion) => ({
+  name: suggestion.display_name,
+ }));
+ return res.status(200).json( suggestionsArray);
+
+}
+
 module.exports = {
   getCoordinates,
-  getDistanceTimeController
+  getDistanceTimeController,
+  getSuggestionsController
 };
