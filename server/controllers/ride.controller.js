@@ -9,7 +9,7 @@ const createRideController = async (req, res) => {
       pickup,
       destination,
       vehicleType,
-      fare,
+      fare
     });
 
     return res.status(201).json({

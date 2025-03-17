@@ -1,5 +1,5 @@
 const axios = require("axios");
-const {getDistanceTime, getSuggestions} = require("../services/maps.service");
+const {getDistanceTime, getSuggestions, calculateFare} = require("../services/maps.service");
 const {metreToKilometer, convertTime} = require("../utils/utils");
 
 const getCoordinates = async (req, res) => {
@@ -36,6 +36,8 @@ const getDistanceTimeController = async (req, res) =>{
   const distance = distanceTime.routes[0].distance;
   const duration = distanceTime.routes[0].duration;
 
+ 
+
   return res.status(200).json({
     distance:{
       text: metreToKilometer(distance),
@@ -63,8 +65,15 @@ const {input} = req.query;
 
 }
 
+const calculateFareController = async(req, res) =>{
+  const {pickup, destination, vehicleType} = req.query;
+  const fare = await calculateFare(pickup, destination, vehicleType);
+  console.log("Fare in controller: ", fare);
+}
+
 module.exports = {
   getCoordinates,
   getDistanceTimeController,
-  getSuggestionsController
+  getSuggestionsController,
+  calculateFareController
 };
