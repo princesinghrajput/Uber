@@ -7,11 +7,20 @@ const captainRoutes = require("./routes/captain.routes");
 const mapRoutes = require('./routes/maps.routes');
 const rideRoutes = require('./routes/rides.routes');
 const bodyParser = require("body-parser");
+const cors = require('cors');
+
 
 
 const app = express();
 
+app.use(cors({
+    origin:"*",
+    methods:["GET","POST","PUT","DELETE"],
+    allowedHeaders:["Content-Type","Authorization"]
+}))
+
 connectDB();
+
 
 app.use(bodyParser.json());
 app.use('/api/users', userRoutes);
