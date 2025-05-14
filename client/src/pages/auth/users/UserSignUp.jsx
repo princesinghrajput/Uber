@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { registerUser } from '../../../services/auth.service'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const UserSignUp = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const navigate = useNavigate();
 
   const handleSubmit = async(e) =>{
     e.preventDefault();
@@ -22,7 +25,15 @@ const UserSignUp = () => {
     }
 
     const response =await registerUser(payload);
-    toast.success(response.message);
+    console.log("response",response);
+    if(response.status === 200){
+      
+      toast.success(response.message);
+      navigate('/user-login');
+    }
+    else{
+      toast.error(response.message);
+    }
 
   }
 
